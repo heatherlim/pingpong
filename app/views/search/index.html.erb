@@ -1,0 +1,10 @@
+<% if flash[:notice] %>
+   <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<ul>
+<% @results.each do |result| %>
+<li>
+<%= link_to result.name, player_path(result) %>
+</li>
+<% end %>
+</ul>

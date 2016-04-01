@@ -1,0 +1,46 @@
+
+
+<% if current_player %>
+<p align="right" style="padding-right:20px">
+<i>logged in as <%= current_player.name %></i>
+</p>
+<% end %>
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">  
+
+    <% if current_player %>
+<!-- Links over here -->
+      <ul class="nav navbar-nav">
+        
+        <li><a href="/games/new">New Game</a></li>
+        <li><a href="/games">Games</a></li>   
+        <li><a href="/players">Players</a></li>
+      </ul>
+<!-- Search bar -->
+      <form class="navbar-form navbar-left" role="search" method="GET" action="/search">
+        <div class="form-group">
+          <input type="text" name = "keyword" class="form-control" placeholder="Search for Players">
+      </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+<!-- Sign out button -->
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/rankings">Rankings</a></li> 
+        <li><a href="/players/<%="#{current_player.id}"%>">Home</a></li>
+        <li><a href="/logout">Sign Out</a></li>
+
+      </ul>
+
+ <% else %>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/signup">Sign Up!</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/login">Login</a></li>
+    </ul>
+    
+ <%end%>   
+  </div>
+</nav>

@@ -1,0 +1,45 @@
+<div id = "box">
+<table border = "1">
+      <% @games.each do |game| %>
+        <p>
+            <th colspan = "3">
+
+             <a href = games/<%= game.id %>> <%= game.match_time.strftime("%A, %B %d, %Y, %I:%M %p %Z") %></a>
+
+            </th>
+            <tr>
+                <td>
+                <!-- line 10 breaks if a game gets saved without teams, need to add validations -->
+                  <% if game.teams[0].players[1] != nil %>
+                    <a href = players/<%= game.teams[0].players[0].id %>>
+                    <%= game.teams[0].players[0].name%>
+                    </a>/<a href = players/<%= game.teams[0].players[1].id %>><%= game.teams[0].players[1].name %></a>
+                  <% else %>
+                  <a href = players/<%= game.teams[0].players[0].id %>><%= game.teams[0].players[0].name %></a>
+                  <%end%>
+                </td>
+                <td>
+                  <%=game.team_games.find_by_team_id(game.teams[0].id).score%><br> 
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                  <% if game.teams[1].players[1] != nil %>
+                    <a href = players/<%= game.teams[1].players[0].id %>><%= game.teams[1].players[0].name%></a>/<a href = players/<%= game.teams[1].players[1].id %>><%= game.teams[1].players[1].name %></a>
+                  <% else %>
+                  <a href = players/<%= game.teams[1].players[0].id %>>
+                  <%= game.teams[1].players[0].name %>
+                  </a>
+                  <%end%>
+                </td>
+                <td>
+                  <%=game.team_games.find_by_team_id(game.teams[1].id).score%><br> 
+                </td>
+            </tr>
+        </p>
+      <% end %>
+ </table>
+</div>
+
+

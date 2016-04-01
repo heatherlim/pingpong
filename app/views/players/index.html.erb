@@ -1,0 +1,13 @@
+
+<ul>
+  <% @courses.each do |course| %>
+  <h3><%= course.name %></h3>
+    <% course.players.each do |player| %> 
+      <% if @players.include?(player) %>
+        <li>
+        <%= link_to player.name, player_path(player)%> 
+        </li> 
+      <% end %>
+    <% end %> 
+  <% end %> 
+</ul>

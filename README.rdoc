@@ -1,0 +1,1 @@
+We need to validate/sort @team.player_ids collection so that there are no duplicates

@@ -1,0 +1,164 @@
+<!-- A Hundred Years of View -->
+<div id = "box">
+
+
+  
+
+
+<h1 style="margin-bottom:.5em; width:93%; border-bottom:solid"><%= @player.course.name.split.map(&:capitalize).join(' ') %></h1>
+<h3><%= @player.name %></h3>
+
+<div>
+
+	<div style="width:33%;margin-bottom:3em;float:left">
+	<h4 style="color:#747272">Singles Wins: <span style="color:#29ce83"><%= @player.singles_wins.count %></span></h4>
+	<h4 style="color:#747272">Singles Losses:  <span style="color:#eb6864"><%= @player.singles_losses.count %> </span></h4>
+  <h4>Singles Games:  <span style="color:#000000"><%= @player.singles_games_total %> </span></h4>
+	<h4>Singles Average: <span style="color:#000000"><%= @player.singles_win_average.round(2) %></span></h4>
+	</div>
+
+	<div style="width:33%;margin-bottom:3em;float:left">
+	<h4 style="color:#747272">Doubles Wins: <span style="color:#29ce83"><%= @player.doubles_wins.count %></span></h4>
+	<h4 style="color:#747272">Doubles Losses:  <span style="color:#eb6864"><%= @player.doubles_losses.count %> </span></h4>
+  <h4>Doubles Games: <span style="color:#000000"><%= @player.doubles_games_total %> </span></h4>
+	<h4>Doubles Average: <span style="color:#000000"><%= @player.doubles_win_average.round(2) %></span></h4>
+	</div>
+
+	<div style="width:33%;margin-bottom:3em;float:left">
+	<h4 style="color:#747272">Total Wins: <span style="color:#29ce83"><%= @player.overall_wins %></span></h4>
+	<h4 style="color:#747272">Total Losses:  <span style="color:#eb6864"><%= @player.overall_losses %> </span></h4>
+  <h4>Total Games:  <span style="color:#000000"><%= @player.games_total %> </span></h4>
+	<h4>Overall Average: <span style="color:#000000"><%= @player.overall_win_average.round(2) %></span></h4>
+	</div>
+
+
+
+<div>
+  <div style="width:33%;margin-bottom:3em;float:left">
+  <h4 style="color:#747272">Singles Points Scored: <span style="color:#29ce83"><%= @player.singles_points_scored %></span></h4>
+  <h4 style="color:#747272">Singles Points Against:  <span style="color:#eb6864"><%= @player.singles_points_against %> </span></h4>
+  </div>
+  <div style="width:33%;margin-bottom:3em;float:left">
+  <h4 style="color:#747272">Doubles Points Scored: <span style="color:#29ce83"><%= @player.doubles_points_scored %></span></h4>
+  <h4 style="color:#747272">Doubles Points Against:  <span style="color:#eb6864"><%= @player.doubles_points_against %> </span></h4>
+  </div>
+  <div style="width:33%;margin-bottom:3em;float:left">
+  <h4 style="color:#747272">Total Points Scored: <span style="color:#29ce83"><%= @player.doubles_points_scored + @player.singles_points_scored%></span></h4>
+  <h4 style="color:#747272">Total Points Against:  <span style="color:#eb6864"><%= @player.doubles_points_against + @player.singles_points_against%> </span></h4>
+  </div>
+
+  </div>
+
+</div>
+
+
+<div style="clear:both">
+
+<h2>Games</h2>
+  
+  <h3> Singles </h3>
+  
+<div style = "padding-right:60px;">
+  <div style="width:50%;float:left;padding-right:20px;">
+    Wins<br>
+    <% @player.teams.each do |team| %>
+    <% team.games.each do |game| %> 
+      <% if game.opponent(team.id)[0].players.count == 1 %>
+        <% if game.winning_team.players[0].name == @player.name %>
+            <% x = game.opponent(team.id)[0].players[0].name%>
+              vs. <%= link_to x, player_path(game.opponent(team.id)[0].players[0].id)%> 
+                   <div style="float:right">
+                    <%= link_to "view", game_path(game)%> 
+                    </div><br>              
+        <%end%>
+      <%end%>
+    <%end%>
+  <%end%>
+  </div>
+  <div style="width:50%;float:left;padding-right:20px;">
+    Losses<br>
+    <% @player.teams.each do |team| %>
+    <% team.games.each do |game| %> 
+      <% if game.opponent(team.id)[0].players.count == 1 %>
+        <% if game.winning_team.players[0].name != @player.name %>
+            <% x = game.opponent(team.id)[0].players[0].name%>
+              vs. <%= link_to x, player_path(game.opponent(team.id)[0].players[0].id)%> 
+                  <div style="float:right">
+                    <%= link_to "view", game_path(game)%> 
+                  </div><br>            
+        <%end%>
+      <%end%>
+    <%end%>
+  <%end%>
+  </div>
+</div>
+<div style="clear:both">
+<div style = "padding-top:60px;">
+<h3>Doubles </h3>
+</div>
+<div style = "padding-right:60px;">
+<div style="width:50%;float:left;padding-right:20px;">
+    Wins<br>
+      <% @player.teams.each do |team| %>
+          <% team.games.each do |game| %> 
+            <% if game.opponent(team.id)[0].players.count == 2 %>
+            
+              <% x = game.opponent(team.id)[0].players[0].name%>
+              <% y = game.opponent(team.id)[0].players[1].name%>
+              <% z = team.players[0].name%>
+              <% q = team.players[1].name%>     
+                  <% if game.winning_team.players[0].name == @player.name || game.winning_team.players[1].name == @player.name%>
+                    <tr>
+                      <td>
+                        w/ <% if z != @player.name %>
+                              <%= link_to z, player_path(team.players[0].id)%> 
+                           <% else %>
+                              <%= link_to q, player_path(team.players[1].id)%> 
+                           <%end%>
+                        vs. <%= link_to x, player_path(game.opponent(team.id)[0].players[0].id)%> & <%=link_to y, player_path(game.opponent(team.id)[0].players[1].id)%>
+                      </td>
+                      <td valign ="bottom">
+                      <div style="float:right">
+                        <%= link_to "view", game_path(game)%>
+                        </div><br>
+                     </td>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %> 
+  </div>
+  <div style="width:50%;float:left;padding-right:20px;">
+    Losses<br>
+    <% @player.teams.each do |team| %>
+          <% team.games.each do |game| %> 
+            <% if game.opponent(team.id)[0].players.count == 2 %>
+              <% x = game.opponent(team.id)[0].players[0].name%>
+              <% y = game.opponent(team.id)[0].players[1].name%>
+              <% z = team.players[0].name%>
+              <% q = team.players[1].name%>     
+                  <% if game.winning_team.players[0].name != @player.name && game.winning_team.players[1].name != @player.name%>
+                    <tr>
+                      <td>
+                        w/ <% if z != @player.name %>
+                              <%= link_to z, player_path(team.players[0].id)%> 
+                           <% else %>
+                              <%= link_to q, player_path(team.players[1].id)%> 
+                           <%end%>
+                        vs. <%= link_to x, player_path(game.opponent(team.id)[0].players[0].id)%> & <%=link_to y, player_path(game.opponent(team.id)[0].players[1].id)%>
+                      </td>
+                      <td valign ="bottom">
+                      <div style="float:right">
+                        <%= link_to "view", game_path(game)%>
+                        </div><br>
+                     </td>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %> 
+  <br><br>
+  </div>
+
+</div>
+
+</div>
+</div>

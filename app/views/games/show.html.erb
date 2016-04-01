@@ -1,0 +1,16 @@
+<div id ="box">
+<h2><%= @game.match_time.strftime("%A, %B %d, %Y") %></h2>
+<h3><%= @game.match_time.strftime("%I:%M %p %Z") %></h3>
+<%@game.teams.each do |team|%>
+  <h1><%=team.name%> <br>points: <%=@game.team_games.find_by_team_id(team.id).score%></h1>
+        <%team.players.each do |player| %>
+        <h2><%= link_to player.name, player_path(player)%></h2>
+        <%end%>
+<%end%>   
+<br>
+<p>     
+<%= form_for @game, :method => :delete do |f| %>
+<%= f.submit "Delete Game" %>
+<% end %>
+</p>
+</div>
