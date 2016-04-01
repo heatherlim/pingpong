@@ -8,7 +8,7 @@ gem 'pg'
 # Use SCSS for stylesheets
 
 gem 'bootswatch-rails'
-
+gem 'rails_12factor'
 gem 'videojs_rails'
 
 gem 'bootstrap-sass', '~> 3.3.5'
